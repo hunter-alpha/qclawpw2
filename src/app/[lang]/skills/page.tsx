@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { LanguageKey } from '@/lib/languages';
 
+export const runtime = 'edge';
+
 interface SkillsPageProps {
   params: Promise<{ lang: string }>;
 }

@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { LanguageKey } from '@/lib/languages';
 
+export const runtime = 'edge';
+
 interface QClawPageProps {
   params: Promise<{ lang: string }>;
 }
