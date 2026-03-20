@@ -1,0 +1,38 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap locations
+Sitemap: https://qclaw.pw/sitemap.xml
+Sitemap: https://qclaw.pw/sitemap-news.xml
+
+# Crawl-delay for Baidu
+User-agent: Baiduspider
+Crawl-delay: 1
+
+# Allow Googlebot
+User-agent: Googlebot
+Allow: /
+
+# Allow Bingbot
+User-agent: Bingbot
+Allow: /
+
+# Allow Yandex
+User-agent: Yandex
+Allow: /
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /private/
+
+# Allow JS and CSS
+Allow: /js/
+Allow: /css/
+Allow: /images/
+
+# Block specific file types
+Disallow: /*.pdf$
+Disallow: /*.doc$
+Disallow: /*.xls$
