@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { LanguageKey } from '@/lib/languages';
 
 interface SkillDetailPageProps {
-  params: { lang: LanguageKey; slug: string };
+  params: Promise<{ lang: string; slug: string }>;
 }
 
 // Mock data - replace with actual data fetching
@@ -105,9 +105,9 @@ print(content)
   },
 };
 
-export async function generateMetadata({ params }: { params: { lang: LanguageKey; slug: string } }) {
-  const locale = params.lang;
-  const slug = params.slug;
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }) {
+  const { lang, slug } = await params;
+  const locale = lang as LanguageKey;
   
   const skill = mockSkills[slug as keyof typeof mockSkills];
   if (!skill) {
@@ -133,8 +133,8 @@ export async function generateMetadata({ params }: { params: { lang: LanguageKey
   };
 
   return {
-    title: translations[locale]?.title || translations.en.title,
-    description: translations[locale]?.description || translations.en.description,
+    title: translations[locale as keyof typeof translations]?.title || translations.en.title,
+    description: translations[locale as keyof typeof translations]?.description || translations.en.description,
   };
 }
 
@@ -142,9 +142,9 @@ export async function generateStaticParams() {
   return Object.keys(mockSkills).map((slug) => ({ slug }));
 }
 
-export default function SkillDetailPage({ params }: SkillDetailPageProps) {
-  const locale = params.lang;
-  const slug = params.slug;
+export default async function SkillDetailPage({ params }: SkillDetailPageProps) {
+  const { lang, slug } = await params;
+  const locale = lang as LanguageKey;
   
   const skill = mockSkills[slug as keyof typeof mockSkills];
   if (!skill) {
@@ -199,7 +199,7 @@ export default function SkillDetailPage({ params }: SkillDetailPageProps) {
     },
   };
 
-  const currentContent = content[locale] || content.en;
+  const currentContent = content[locale as keyof typeof content] || content.en;
 
   return (
     <div className="min-h-screen bg-gray-50">

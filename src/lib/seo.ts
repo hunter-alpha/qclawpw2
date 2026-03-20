@@ -68,7 +68,11 @@ export function generateStructuredData(
   });
 }
 
-export const baseSEO: Partial<SEOConfig> = {
+export const baseSEO: {
+  keywords: string[];
+  og: Partial<SEOConfig['og']>;
+  twitter: Partial<SEOConfig['twitter']>;
+} = {
   keywords: [
     'OpenClaw',
     'OpenClaw skills',

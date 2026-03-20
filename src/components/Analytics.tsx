@@ -1,7 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 declare global {
@@ -53,11 +53,10 @@ export function BaiduAnalytics() {
 
 export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   useEffect(() => {
     if (pathname) {
-      const url = pathname + searchParams.toString();
+      const search = typeof window !== 'undefined' ? window.location.search : '';
+      const url = pathname + search;
       
       // Google Analytics 4
       if (typeof window.gtag !== 'undefined') {
@@ -71,7 +70,7 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
         window._hmt.push(['_trackPageview', url]);
       }
     }
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return <>{children}</>;
 }

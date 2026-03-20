@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { LanguageKey } from '@/lib/languages';
 
 interface SkillsPageProps {
-  params: { lang: LanguageKey };
+  params: Promise<{ lang: string }>;
 }
 
-export async function generateMetadata({ params }: { params: { lang: LanguageKey } }) {
-  const locale = params.lang;
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const locale = lang as LanguageKey;
   
   const translations = {
     'zh-CN': {
@@ -25,8 +26,8 @@ export async function generateMetadata({ params }: { params: { lang: LanguageKey
   };
 
   return {
-    title: translations[locale]?.title || translations.en.title,
-    description: translations[locale]?.description || translations.en.description,
+    title: translations[locale as keyof typeof translations]?.title || translations.en.title,
+    description: translations[locale as keyof typeof translations]?.description || translations.en.description,
   };
 }
 
@@ -61,8 +62,9 @@ const mockSkills = [
   },
 ];
 
-export default function SkillsPage({ params }: SkillsPageProps) {
-  const locale = params.lang;
+export default async function SkillsPage({ params }: SkillsPageProps) {
+  const { lang } = await params;
+  const locale = lang as LanguageKey;
 
   const content = {
     'zh-CN': {
@@ -94,7 +96,7 @@ export default function SkillsPage({ params }: SkillsPageProps) {
     },
   };
 
-  const currentContent = content[locale] || content.en;
+  const currentContent = content[locale as keyof typeof content] || content.en;
 
   return (
     <div className="min-h-screen bg-gray-50">

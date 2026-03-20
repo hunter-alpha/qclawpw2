@@ -11,12 +11,13 @@ const inter = Inter({ subsets: ['latin'] });
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  params: { lang: LanguageKey };
+  params: Promise<{ lang: string }>;
 }
 
-export async function generateMetadata({ params }: { params: { lang: LanguageKey } }) {
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://qclaw.pw';
-  const locale = params.lang;
+  const { lang } = await params;
+  const locale = lang as LanguageKey;
   const path = '/';
   
   const hreflangTags = generateHreflangTags(baseUrl, path, locale);
@@ -71,11 +72,12 @@ export async function generateStaticParams() {
   return Object.keys(languages).map((lang) => ({ lang }));
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params,
 }: RootLayoutProps) {
-  const locale = params.lang;
+  const { lang } = await params;
+  const locale = lang as LanguageKey;
   
   return (
     <html lang={locale}>
