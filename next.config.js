@@ -1,12 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   experimental: {
     appDir: true,
-  },
-  i18n: {
-    locales: ['zh-CN', 'en', 'de-DE', 'de-AT', 'fr', 'ja', 'ko', 'hi', 'id'],
-    defaultLocale: 'en',
-    localeDetection: false,
   },
   trailingSlash: false,
   generateBuildId: async () => {
